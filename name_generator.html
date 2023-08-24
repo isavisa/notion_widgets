@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Asset Name Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+
+        #result {
+            font-size: 72px;
+            margin-top: 20px;
+        }
+
+        #copyButton {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>3D Asset Name Generator</h1>
+    <form id="generatorForm">
+        <label for="assetType">Select Asset Type:</label>
+        <select id="assetType" name="assetType">
+            <option value="Dress">Dress</option>
+            <option value="Accessory">Accessory</option>
+            <!-- Add more options as needed -->
+        </select><br><br>
+
+        <label for="adjectives">Select Adjectives (Hold Ctrl/Cmd for multiple selections):</label>
+        <select id="adjectives" name="adjectives" multiple>
+            <option value="Cool">Cool</option>
+            <option value="Elegant">Elegant</option>
+            <option value="Funky">Funky</option>
+            <!-- Add more options as needed -->
+        </select><br><br>
+
+        <label for="creatorName">Enter Creator Name:</label>
+        <input type="text" id="creatorName"><br><br>
+
+        <button type="button" id="generateButton">Generate!</button>
+        <button type="button" id="copyButton">Copy to Clipboard</button>
+    </form>
+
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('generateButton').addEventListener('click', function() {
+            const assetType = document.getElementById('assetType').value;
+            const creatorName = document.getElementById('creatorName').value;
+            const selectedAdjectives = Array.from(document.getElementById('adjectives').selectedOptions).map(option => option.value);
+            const generatedName = (creatorName ? creatorName + selectedAdjectives.join('') : '') + assetType;
+            document.getElementById('result').textContent = generatedName;
+        });
+
+        document.getElementById('copyButton').addEventListener('click', function() {
+            const resultText = document.getElementById('result').textContent;
+
+            const textArea = document.createElement('textarea');
+            textArea.value = resultText;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+
+            alert('Copied to clipboard: ' + resultText);
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+

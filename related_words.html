@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Related Words Tool</title>
+</head>
+<body>
+    <h1>Related Words Tool</h1>
+    <label for="inputWord">Enter a word:</label>
+    <input type="text" id="inputWord">
+    <button id="fetchButton">Fetch Related Words</button>
+    <ul id="relatedWordsList"></ul>
+
+    <script>
+        document.getElementById('fetchButton').addEventListener('click', async function() {
+            const inputWord = document.getElementById('inputWord').value;
+            const relatedWordsList = document.getElementById('relatedWordsList');
+
+            // Clear previous results
+            relatedWordsList.innerHTML = '';
+
+            // Make request to Datamuse API
+            try {
+                const response = await fetch(`https://api.datamuse.com/words?rel_syn=${inputWord}`);
+                const data = await response.json();
+
+                data.forEach(wordData => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = wordData.word;
+                    relatedWordsList.appendChild(listItem);
+                });
+            } catch (error) {
+                console.error('An error occurred:', error);
+            }
+        });
+    </script>
+</body>
+</html>
+In this example, the tool prompts the user to enter a word, and when they click the "Fetch Related Words" button, it fetches a list of synonyms (related words) for that input word using the Datamuse API. The related words are then displayed in a list below the input field.
+
+Keep in mind that this is a basic example, and you might want to add error handling and improve the user interface. Additionally, you could explore other APIs or sources for more comprehensive word-related data.
+
+
+
+
