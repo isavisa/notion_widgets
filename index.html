@@ -19,43 +19,417 @@
         #copyButton {
             margin-top: 10px;
         }
+
     </style>
 </head>
 <body>
     <h1>3D Asset Name Generator</h1>
-    <form id="generatorForm">
-        <label for="assetType">Select Asset Type:</label>
-        <select id="assetType" name="assetType">
-            <option value="Dress">Dress</option>
-            <option value="Accessory">Accessory</option>
-            <!-- Add more options as needed -->
-        </select><br><br>
+    <label for="creatorName">Enter Creator Name:</label>
+    <input type="text" id="creatorName"><br><br>
 
-        <label for="adjectives">Select Adjectives (Hold Ctrl/Cmd for multiple selections):</label>
-        <select id="adjectives" name="adjectives" multiple>
-            <option value="Cool">Cool</option>
-            <option value="Elegant">Elegant</option>
-            <option value="Funky">Funky</option>
-            <!-- Add more options as needed -->
-        </select><br><br>
+    <label for="assetType">Select Asset Type:</label>
+    <select id="assetType" name="assetType">
+        <option value="Dress">Dress</option>
+        <option value="Accessory">Accessory</option>
+        <!-- Add more options as needed -->
+    </select><br><br>
 
-        <label for="creatorName">Enter Creator Name:</label>
-        <input type="text" id="creatorName"><br><br>
+    <label for="moodType">Select Mood:</label>
+    <select id="moodType" name="moodType">
+        <option value="Punk">Punk</option>
+        <option value="Royal">Royal</option>
+        <option value="Mystic">Mystic</option>
+        <option value="Cyber">Cyber</option>
+        <option value="Fancy">Fancy</option>
+        <!-- Add more options as needed -->
+    </select><br><br>
 
-        <button type="button" id="generateButton">Generate!</button>
-        <button type="button" id="copyButton">Copy to Clipboard</button>
-    </form>
+
+    <label for="random-display">Random Adjective:</label>
+    <div id="random-display"></div>
+    <br><br>
 
     <div id="result"></div>
+    <br><br>
+    <button type="button" id="generateButton">Randomize!</button>
+    <button type="button" id="copyButton">Copy to Clipboard</button>
 
     <script>
+
+        var cyber_entries = [
+            "Cyber",
+            "Cyberpunk",
+            "Edgy",
+            "Crystal",
+            "Serenity",
+            "Digital",
+            "Digital",
+            "Renegade",
+            "Digital",
+            "Punk",
+            "Vengeful",
+            "Glitch",
+            "Glitchcore",
+            "Web3",
+            "Motherboard",
+            "Connected",
+            "Effervescent",
+            "Rave",
+            "Ravecore",
+            "Rave"
+            // Add more entries as needed
+        ];
+
+        var fancy_entries = [
+            "Fusion",
+            "Couture",
+            "Elegance",
+            "Spark",
+            "Spectrum",
+            "Witchery",
+            "Style",
+            "Runway",
+            "Raiment",
+            "Panache",
+            "Vogue",
+            "Glam",
+            "Garb",
+            "Wear",
+            "Monarchy",
+            "Chic",
+            "Ensembles",
+            "Radiance",
+            "Raiment",
+            "Attire"
+        ];
+
+        var royal_entries = [
+            "Majesty",
+            "Drape",
+            "Glam",
+            "Chic",
+            "Edge",
+            "Vogue",
+            "Reverie",
+            "Glitz",
+            "Groove",
+            "Reverie",
+            "Street",
+            "Fusion",
+            "Couture",
+            "Vibe",
+            "Stride",
+            "Mode",
+            "Jewel",
+            "Ethereal",
+            "Bling",
+            "Elegance",
+            "Fantasy",
+            "Layers",
+            "Rebellion",
+            "Edge",
+            "Sorcery",
+            "Delight",
+            "Charm",
+            "Catalyst",
+            "Alchemy",
+            "Enchantment",
+            "Maven",
+            "Gaze",
+            "Ensemble",
+            "Flux",
+            "Luxe",
+            "Whims",
+            "Chic",
+            "Gleam",
+            "Cascade",
+            "Swagger",
+            "Valiant",
+            "Threads",
+            "Elegance",
+            "Ruffles",
+            "Luxe",
+            "Ovation",
+            "Mirage",
+            "Serenade",
+            "Nuance",
+            "Cascade",
+            "Starlight",
+            "Stroll",
+            "Hues",
+            "Finesse",
+            "Rhapsody",
+            "Venture",
+            "Echo",
+            "Charisma",
+            "Luminance",
+            "Cadence",
+            "Majesty",
+            "Whispers",
+            "Utopia",
+            "Elegance",
+            "Serenity",
+            "Dynasty",
+            "Symphony",
+            "Royalty",
+            "Galaxy",
+            "Mosaic",
+            "Elegant",
+            "Sophisticated",
+            "Cerebral",
+            "Vintage",
+            "Bookish",
+            "Intellectual",
+            "Classic",
+            "Mysterious",
+            "Regal",
+            "Aristocratic",
+            "Antique",
+            "Charming",
+            "Refined",
+            "Academic",
+            "Cultured",
+            "Nostalgic",
+            "Ornate",
+            "Illuminated",
+            "Literary",
+            "Wise",
+            "Timeless",
+            "Distinguished",
+            "Enigmatic",
+            "Intriguing",
+            "Grand",
+            "Opulent",
+            "Renaissance",
+            "Imposing",
+            "Baroque",
+            "Genteel",
+            "Stately",
+            "Melancholic",
+            "Thoughtful",
+            "Calm",
+            "Royal",
+            "Studious",
+            "Formal",
+            "Aesthetic",
+            "Noble",
+            "Dark",
+            "Serene",
+            "Candid",
+            "Wistful",
+            "Nurturing",
+            "Gentle",
+            "Vintage",
+            "Eloquent",
+            "Civilized",
+            "Inspiring",
+            "Enlightened",
+            "Pensive",
+            "Sombre",
+            "Cultivated",
+            "Resplendent",
+            "Discerning",
+            "Intricate",
+            "Ritualistic",
+            "Perceptive",
+            "Tranquil",
+            "Ethereal",
+            "Harmonious",
+            "Aesthetic",
+            "Curious",
+            "Thoughtful",
+            "Pensive",
+            "Cultured",
+            "Enigmatic",
+            "Elegant",
+            "Classic",
+            "Studious",
+            "Noble",
+            "Regal"
+        ];
+
+        var mystic_entries = [
+            "Mystic",
+            "Dream",
+            "Moonlit",
+            "Whimsy",
+            "Enchanted",
+            "Nova",
+            "Rebel",
+            "Gemstone",
+            "Goddess",
+            "Retro",
+            "Sapphire",
+            "Floral",
+            "Cosmic",
+            "Velvet",
+            "Starlet",
+            "Dazzle",
+            "Crown",
+            "Urban",
+            "Boho",
+            "Electric",
+            "Fierce",
+            "Luxe",
+            "Radiant",
+            "Ethereal",
+            "Sleek",
+            "Daring",
+            "Celestial",
+            "Crystal",
+            "Chic",
+            "Urban",
+            "Mystique",
+            "Glamour",
+            "Enigma",
+            "Spark",
+            "Luminous",
+            "Wildflower",
+            "Stellar",
+            "Gleam",
+            "Charm",
+            "Sunkissed",
+            "Velvet",
+            "Twilight",
+            "Eclipse",
+            "Rebel",
+            "Lush",
+            "Opal",
+            "Mystic",
+            "Solar",
+            "Nebula",
+            "Chic",
+            "Silken",
+            "Serenity",
+            "Harmony",
+            "Floral",
+            "Radiant",
+            "Velvet",
+            "Ethereal",
+            "Crown",
+            "Lush",
+            "Cosmic",
+            "Moonlit",
+            "Whimsical",
+            "Urban",
+            "Enchanted",
+            "Stellar",
+            "Dreamy",
+            "Celestial",
+            "Retro",
+            "Gleaming",
+            "Mystic",
+            "Luminous",
+            "Opulent",
+            "Ethereal",
+            "Chic",
+            "Silken",
+            "Radiant",
+            "Sapphire",
+            "Bohemian",
+            "Floral",
+            "Velvet",
+            "Starry",
+            "Goddess",
+            "Moonlit",
+            "Enchanted",
+            "Rebel",
+            "Luxe",
+            "Eclipse",
+            "Twilight",
+            "Whimsy",
+            "Nebula",
+            "Stellar",
+            "Dazzling",
+            "Celestial",
+            "Opal",
+            "Retro",
+            "Chic",
+            "Floral",
+            "Luminous",
+            "Velvet",
+            "Sapphire"
+        ];
+
+        var punk_entries = [
+            "Edgy",
+            "Rebellious",
+            "Alternative",
+            "Gothic",
+            "Vintage",
+            "Retro",
+            "Distressed",
+            "Pierced",
+            "Tattooed",
+            "Grunge",
+            "Angsty",
+            "Skater",
+            "Vampiric",
+            "Cryptic",
+            "Revolted",
+            "Cemetery",
+            "Riotous",
+            "Punk",
+            "Goth",
+            "Chokered",
+            "Studded",
+            "Ripped",
+            "Nonconformist",
+            "Subcultural",
+            "Underground",
+            "Occult",
+            "Anarchic",
+            "Defiant",
+            "Spooky",
+            "Shadowy",
+            "Rebellious",
+            "Dystopian",
+            "Tattooed",
+            "Anarchic",
+            "Gothic",
+            "Rebellious",
+            "Subversive",
+            "Punk",
+            "Dark"
+            // Add more entries as needed
+        ];
+
         document.getElementById('generateButton').addEventListener('click', function() {
-            const assetType = document.getElementById('assetType').value;
-            const creatorName = document.getElementById('creatorName').value;
-            const selectedAdjectives = Array.from(document.getElementById('adjectives').selectedOptions).map(option => option.value);
-            const generatedName = (creatorName ? creatorName + selectedAdjectives.join('') : '') + assetType;
-            document.getElementById('result').textContent = generatedName;
+            var moodType = document.getElementById('moodType').value;
+
+            var entries = mystic_entries;
+            if(moodType == 'Punk'){
+                entries = punk_entries;
+            } else if (moodType == 'Cyber'){
+                entries = cyber_entries;
+            } else if (moodType == 'Fancy'){
+                entries = fancy_entries;
+            } else if (moodType == 'Royal'){
+                entries = royal_entries;
+            }    
+            
+            if (entries.length > 0) {
+                var randomIndex = Math.floor(Math.random() * entries.length);
+                var randomEntry = entries[randomIndex];
+                
+                document.getElementById("random-display").textContent = randomEntry;
+
+                const assetType = document.getElementById('assetType').value;
+                const creatorName = document.getElementById('creatorName').value;
+                const selectedAdjectives =  document.getElementById('random-display').textContent; //Array.from(document.getElementById('adjectives').selectedOptions).map(option => option.value);
+                const generatedName = (creatorName ? creatorName : '') + selectedAdjectives + assetType;
+                const camelName = toCamelCase(generatedName)
+                document.getElementById('result').textContent = camelName;
+            } else {
+                document.getElementById("random-display").textContent = "No entries available.";
+            }
         });
+
+        function toCamelCase(inputString) {
+            return inputString.replace(/(?:^\w|[A-Z]|\b\w)/g, (match, index) => {
+                return index === 0 ? match.toLowerCase() : match.toUpperCase();
+            }).replace(/\s+/g, '');
+        }
 
         document.getElementById('copyButton').addEventListener('click', function() {
             const resultText = document.getElementById('result').textContent;
@@ -69,6 +443,26 @@
 
             alert('Copied to clipboard: ' + resultText);
         });
+
+        
+        function pickRandomEntry() {
+          var entries = mystic_entries;
+          if (entries.length > 0) {
+            var randomIndex = Math.floor(Math.random() * entries.length);
+            var randomEntry = entries[randomIndex];
+            
+            document.getElementById("random-display").textContent = randomEntry;
+
+            const assetType = document.getElementById('assetType').value;
+            const creatorName = document.getElementById('creatorName').value;
+            const selectedAdjectives =  document.getElementById('random-display').textContent; //Array.from(document.getElementById('adjectives').selectedOptions).map(option => option.value);
+            const generatedName = (creatorName ? creatorName : '') + selectedAdjectives + assetType;
+            const camelName = toCamelCase(generatedName)
+            document.getElementById('result').textContent = camelName;
+          } else {
+            document.getElementById("random-display").textContent = "No entries available.";
+          }
+        }
     </script>
 </body>
 </html>
