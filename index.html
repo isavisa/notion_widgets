@@ -45,8 +45,8 @@
         <option value="Bracelet">Bracelet</option>
     </select><br><br>
 
-    <label for="moodType">Select Mood:</label>
-    <select id="moodType" name="moodType">
+    <label for="aestheticType">Select Aesthetic:</label>
+    <select id="aestheticType" name="aestheticType">
         <option value="Punk">Punk</option>
         <option value="Royal">Royal</option>
         <option value="Mystic">Mystic</option>
@@ -406,16 +406,16 @@
         ];
 
         document.getElementById('generateButton').addEventListener('click', function() {
-            var moodType = document.getElementById('moodType').value;
+            var aestheticType = document.getElementById('aestheticType').value;
 
             var entries = mystic_entries;
-            if(moodType == 'Punk'){
+            if(aestheticType == 'Punk'){
                 entries = punk_entries;
-            } else if (moodType == 'Cyber'){
+            } else if (aestheticType == 'Cyber'){
                 entries = cyber_entries;
-            } else if (moodType == 'Fancy'){
+            } else if (aestheticType == 'Fancy'){
                 entries = fancy_entries;
-            } else if (moodType == 'Royal'){
+            } else if (aestheticType == 'Royal'){
                 entries = royal_entries;
             }    
             
